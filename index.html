@@ -1,0 +1,999 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="스쿼시 초보자를 위한 규칙·기술 설명과 실전 판단 훈련 게임" />
+  <title>스쿼시 알리기</title>
+  <style>
+:root{
+  --bg:#0b1010;--panel:#111817;--panel2:#16201e;--text:#f4f7f1;--muted:#98a7a1;
+  --line:#263330;--accent:#d9ff43;--accent2:#b9dc32;--paper:#edf1e9;--ink:#101514;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Pretendard,"Noto Sans KR",Arial,sans-serif;line-height:1.55}button,select{font:inherit}.shell{width:min(1180px,calc(100% - 40px));margin:auto}.topbar{position:sticky;top:0;z-index:50;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 max(20px,calc((100vw - 1180px)/2));background:rgba(11,16,16,.92);backdrop-filter:blur(14px);border-bottom:1px solid #1c2624}.brand{display:flex;align-items:center;gap:12px;border:0;background:none;color:white;cursor:pointer;text-align:left}.brand-mark{display:grid;place-items:center;width:38px;height:38px;background:var(--accent);color:#0b100f;font-weight:1000;font-size:22px;transform:skew(-8deg)}.brand strong{display:block;font-size:16px}.brand small{display:block;color:#788781;font-size:10px;letter-spacing:.12em}.nav{display:flex;gap:4px}.nav button{border:0;background:transparent;color:#a7b2ae;padding:10px 13px;border-radius:10px;cursor:pointer;font-size:14px}.nav button:hover{color:white;background:#151d1c}.nav .nav-game{background:var(--accent);color:#101410;font-weight:800;margin-left:8px}.page{display:none;min-height:calc(100vh - 150px)}.page.active{display:block}.hero{min-height:690px;display:grid;grid-template-columns:1.04fr .96fr;align-items:center;gap:70px;padding:72px 0}.eyebrow{font-size:11px;letter-spacing:.22em;font-weight:900;color:var(--accent);text-transform:uppercase}.hero h1,.content-hero h1,.game-head h1{font-size:clamp(42px,5.5vw,74px);line-height:1.04;letter-spacing:-.05em;margin:16px 0 24px}.hero h1 em{font-style:normal;color:var(--accent)}.hero-copy>p{max-width:620px;font-size:18px;color:#afbbb7}.hero-actions{display:flex;gap:10px;margin-top:34px}.primary,.secondary{border:0;border-radius:10px;padding:14px 20px;font-weight:900;cursor:pointer}.primary{background:var(--accent);color:#11160f}.primary:hover{background:#e4ff77}.secondary{background:#1b2523;color:white;border:1px solid #2c3a37}.wide{width:100%}.hero-stats{display:flex;gap:38px;margin-top:48px}.hero-stats div{display:flex;flex-direction:column}.hero-stats b{font-size:30px;color:white}.hero-stats span{color:#74817d;font-size:12px}.court-card{background:linear-gradient(145deg,#1a2622,#0e1513);border:1px solid #2b3935;border-radius:24px;padding:20px;box-shadow:0 30px 90px #0008}.court-mini{position:relative;aspect-ratio:4/5;background:#dce5dd;border:6px solid #f8fff9;overflow:hidden}.front-label{position:absolute;top:8px;width:100%;text-align:center;color:#34403d;font-size:10px;font-weight:900;letter-spacing:.18em}.mini-line{position:absolute;left:0;width:100%;height:2px;background:#65726e}.mini-line.service{top:25%}.mini-line.tin{top:42%;height:18px;background:#b9c2bc;border-block:2px solid #65726e}.mini-t{position:absolute;left:50%;top:62%;transform:translate(-50%,-50%);color:#64706c;font-weight:900;border:2px solid #76817d;width:32px;height:32px;display:grid;place-items:center}.mini-ball{position:absolute;width:15px;height:15px;border-radius:50%;background:#eaff50;left:62%;top:29%;box-shadow:0 0 20px #d9ff43}.mini-player{position:absolute;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:8px;font-weight:900}.mini-player.p1{left:31%;top:69%;background:#0d1715;color:white}.mini-player.p2{left:67%;top:51%;background:#ff6f61;color:white}.mini-path{position:absolute;width:170px;height:110px;border-top:3px dashed #98a69f;transform:rotate(-24deg);left:42%;top:30%;opacity:.6}.court-card-caption{padding:22px 6px 3px}.court-card-caption strong{display:block;font-size:22px;margin:10px 0 6px}.court-card-caption p{margin:0;color:#8f9b97;font-size:14px}.badge,.tag{display:inline-block;background:#27312e;color:var(--accent);font-size:10px;font-weight:900;letter-spacing:.12em;padding:5px 8px;border-radius:6px}.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding-bottom:80px}.feature{border:1px solid var(--line);background:#101716;color:white;text-align:left;padding:26px;border-radius:18px;cursor:pointer}.feature:hover{transform:translateY(-3px);border-color:#46534f}.feature>span{color:#66736f;font-size:11px}.feature h3{font-size:20px;margin:24px 0 8px}.feature p{font-size:14px;color:#8e9a96;margin:0}.feature.accent{background:var(--accent);color:#111610}.feature.accent p,.feature.accent>span{color:#4b5624}.content-hero{padding:82px 0 44px}.content-hero h1,.game-head h1{font-size:55px;margin:10px 0}.content-hero p,.game-head p{color:#9da9a5;max-width:760px}.lesson-layout{display:grid;grid-template-columns:1fr 330px;gap:30px;padding-bottom:80px}.lesson-main{display:grid;gap:12px}.lesson-card{background:#111817;border:1px solid var(--line);padding:30px;border-radius:16px}.lesson-no{color:var(--accent);font-weight:900;font-size:11px}.lesson-card h2{font-size:24px;margin:8px 0}.lesson-card p{margin:0;color:#a0ada8}.lesson-side{position:sticky;top:95px;align-self:start}.tip-box{background:var(--paper);color:var(--ink);padding:28px;border-radius:16px;margin-bottom:12px}.tip-box b{font-size:19px}.tip-box p{color:#46504c}.cards{padding-bottom:80px}.rules-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.info-card{background:#111817;border:1px solid var(--line);padding:28px;border-radius:16px}.info-card h2{font-size:24px;margin:18px 0 7px}.info-card p{color:#97a49f;margin:0}.source-note{border-top:1px solid var(--line);padding:20px 0 70px;color:#6f7d78;font-size:12px}.shot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.shot-card{background:#111817;border:1px solid var(--line);padding:16px;border-radius:18px}.shot-card>span{font-size:10px;color:var(--accent);font-weight:900}.shot-card h2{font-size:26px;margin:8px 0}.shot-card p{min-height:68px;color:#95a29e;font-size:14px}.shot-card>b{font-size:12px;color:#cbd4d0}.shot-diagram{height:170px;background:#dce4df;border-radius:11px;position:relative;overflow:hidden;margin-bottom:17px}.shot-diagram:before{content:"";position:absolute;left:50%;top:0;height:100%;border-left:1px dashed #8d9994}.shot-diagram:after{content:"T";position:absolute;left:50%;top:62%;transform:translate(-50%,-50%);color:#68736f;font-size:12px;border:1px solid #8a9490;padding:4px}.shot-diagram i{position:absolute;display:block;width:8px;height:8px;background:#151a18;border-radius:50%;left:26%;bottom:18%}.shot-diagram i:after{content:"";position:absolute;height:3px;background:#202b28;transform-origin:left center;border-radius:3px}.straight i:after{width:120px;transform:rotate(-77deg)}.cross i:after{width:190px;transform:rotate(-47deg)}.boast i:after{width:120px;transform:rotate(-58deg);box-shadow:70px -92px 0 -1px #202b28}.drop i:after{width:130px;transform:rotate(-70deg)}.cta-strip{margin-top:16px;margin-bottom:80px;background:#1a2421;border:1px solid #2a3935;border-radius:16px;padding:24px 26px;display:flex;justify-content:space-between;align-items:center}.cta-strip b,.cta-strip span{display:block}.cta-strip span{color:#82908b;font-size:13px}.strategy-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:14px;align-items:center}.flow-step{min-height:210px;background:#111817;border:1px solid var(--line);padding:24px;border-radius:16px}.flow-step>span{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#131712;font-weight:900}.flow-step b{display:block;font-size:20px;margin:26px 0 8px}.flow-step p{margin:0;color:#8e9c97;font-size:14px}.strategy-flow>i{font-style:normal;color:#52605b}.strategy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;padding-bottom:80px}.strategy-grid article{background:#dfe7df;color:#17201d;border-radius:16px;padding:26px}.strategy-grid h2{margin-top:0}.strategy-grid p{color:#53605b}.game-shell{padding:62px 0 80px}.game-head{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:24px}.difficulty label{display:block;color:#76827e;font-size:11px;font-weight:900;margin-bottom:7px}.difficulty select{background:#151e1c;border:1px solid #34413d;color:white;padding:12px;border-radius:10px}.game-layout{display:grid;grid-template-columns:minmax(0,760px) 1fr;gap:16px;align-items:start}.canvas-wrap{position:relative;border:1px solid #394641;background:#050807;border-radius:18px;padding:12px}.canvas-wrap canvas{width:100%;height:auto;display:block;border-radius:8px;background:#e5eae5}.game-overlay{position:absolute;inset:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:rgba(7,11,10,.82);backdrop-filter:blur(5px);border-radius:8px}.game-overlay.hidden{display:none}.overlay-kicker{color:var(--accent);font-size:10px;font-weight:900;letter-spacing:.2em}.game-overlay h2{font-size:34px;margin:10px 0}.game-overlay p{color:#a9b5b0}.game-panel{display:grid;gap:10px}.status-card{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#25302d;border:1px solid #25302d;border-radius:14px;overflow:hidden}.status-card div{background:#111817;padding:15px}.status-card span{display:block;color:#71807a;font-size:9px;font-weight:900}.status-card b{display:block;margin-top:5px;font-size:20px}.mission-card,.power-card,.feedback-card,.shot-selector{background:#111817;border:1px solid var(--line);border-radius:14px;padding:18px}.panel-label{color:#71807a;font-size:9px;font-weight:900;letter-spacing:.14em}.mission-card h3{font-size:20px;margin:8px 0}.mission-card p,.feedback-card p,.power-card p{margin:0;color:#92a09b;font-size:13px}.shot-selector{display:grid;grid-template-columns:1fr 1fr;gap:8px}.shot-selector>.panel-label{grid-column:1/-1;margin-bottom:3px}.shot-selector button{display:flex;align-items:center;gap:10px;text-align:left;background:#18211f;border:1px solid #2a3733;color:white;border-radius:10px;padding:11px;cursor:pointer}.shot-selector button.active{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}.shot-selector button:disabled{opacity:.35}.shot-selector kbd{display:grid;place-items:center;width:27px;height:27px;background:#293531;border-radius:6px;color:var(--accent);font-weight:900}.shot-selector span{font-weight:800;font-size:13px}.shot-selector small{display:block;color:#71807b;font-weight:500}.power-top{display:flex;justify-content:space-between;align-items:center}.power-top b{color:var(--accent)}.power-track{position:relative;height:18px;background:#26302d;border-radius:20px;overflow:hidden;margin:12px 0}.power-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#8f9c98,var(--accent));opacity:.45}.good-zone{position:absolute;top:0;bottom:0;background:#d9ff4340;border-inline:1px solid #d9ff43aa}.power-needle{position:absolute;top:-2px;bottom:-2px;width:3px;background:white;left:0;box-shadow:0 0 10px white}.feedback-card{min-height:90px;border-color:#34433e}.game-guide{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.game-guide div{background:#111817;border:1px solid var(--line);padding:15px;border-radius:12px}.game-guide b,.game-guide span{display:block}.game-guide b{font-size:12px;color:var(--accent)}.game-guide span{font-size:12px;color:#798782;margin-top:4px}footer{border-top:1px solid #1c2523;color:#5d6a66;padding:30px 0}footer .shell{display:flex;justify-content:space-between}footer strong{color:#7f8c87}@media(max-width:950px){.nav button:not(.nav-game){display:none}.hero{grid-template-columns:1fr;gap:30px}.feature-grid,.shot-grid{grid-template-columns:1fr 1fr}.rules-grid{grid-template-columns:1fr 1fr}.lesson-layout,.game-layout{grid-template-columns:1fr}.lesson-side{position:static}.strategy-flow{grid-template-columns:1fr}.strategy-flow>i{display:none}.strategy-grid{grid-template-columns:1fr}.game-head{display:block}.difficulty{margin-top:18px}.game-panel{grid-template-columns:1fr 1fr}.status-card,.mission-card{grid-column:1/-1}}@media(max-width:620px){.shell{width:min(100% - 24px,1180px)}.topbar{padding:0 12px}.brand small{display:none}.hero{padding-top:40px}.hero h1{font-size:46px}.feature-grid,.shot-grid,.rules-grid,.game-panel,.game-guide{grid-template-columns:1fr}.hero-actions{flex-direction:column}.status-card{grid-template-columns:repeat(3,1fr)}.shot-selector{grid-template-columns:1fr 1fr}.content-hero h1,.game-head h1{font-size:42px}.cta-strip{display:block}.cta-strip button{margin-top:15px;width:100%}footer .shell{display:block}}
+.aim-card{background:#111817;border:1px solid var(--line);border-radius:14px;padding:18px}.aim-head,.aim-status{display:flex;justify-content:space-between;align-items:center}.aim-head b{color:var(--accent);font-size:13px}.aim-status{margin:12px 0;color:#7f8c87;font-size:12px}.aim-status strong{color:white}.aim-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.aim-buttons button{background:#18211f;border:1px solid #2a3733;color:white;border-radius:10px;padding:10px 12px;cursor:pointer;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px}.aim-buttons button:hover{border-color:var(--accent)}.aim-buttons kbd{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 6px;background:#293531;border-radius:6px;color:var(--accent);font-weight:900}.aim-card p{margin:10px 0 0;color:#82908b;font-size:12px;line-height:1.55}
+
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" data-page="home" aria-label="홈으로 이동">
+      <span class="brand-mark">S</span>
+      <span>
+        <strong>스쿼시 알리기</strong>
+        <small>Learn · Read · Move · Hit</small>
+      </span>
+    </button>
+    <nav class="nav" aria-label="주 메뉴">
+      <button data-page="basics">처음 배우기</button>
+      <button data-page="rules">규칙</button>
+      <button data-page="techniques">기술</button>
+      <button data-page="strategy">전술</button>
+      <button class="nav-game" data-page="practice">실전 연습</button>
+    </nav>
+  </header>
+
+  <main id="app">
+    <section class="page active" id="page-home">
+      <div class="hero shell">
+        <div class="hero-copy">
+          <span class="eyebrow">SQUASH FOR BEGINNERS</span>
+          <h1>벽을 치는 운동이 아니라,<br><em>공간을 빼앗는 게임.</em></h1>
+          <p>룰을 읽고 끝내지 마세요. 상대 타구를 읽고, 먼저 움직이고, 샷을 선택하고, 다시 T로 돌아오는 흐름을 직접 연습합니다.</p>
+          <div class="hero-actions">
+            <button class="primary" data-page="practice">바로 게임 시작</button>
+            <button class="secondary" data-page="basics">스쿼시 5분 입문</button>
+          </div>
+          <div class="hero-stats">
+            <div><b>4</b><span>핵심 샷</span></div>
+            <div><b>T</b><span>코트 중심</span></div>
+            <div><b>11</b><span>한 게임 점수</span></div>
+          </div>
+        </div>
+        <div class="court-card">
+          <div class="court-mini">
+            <div class="front-label">FRONT WALL</div>
+            <div class="mini-line service"></div>
+            <div class="mini-line tin"></div>
+            <div class="mini-ball"></div>
+            <div class="mini-player p1">YOU</div>
+            <div class="mini-player p2">CPU</div>
+            <div class="mini-t">T</div>
+            <div class="mini-path"></div>
+          </div>
+          <div class="court-card-caption">
+            <span class="badge">오늘의 핵심</span>
+            <strong>치고 → 비우고 → T로 복귀</strong>
+            <p>좋은 샷은 상대를 움직이고, 내가 다음 공을 먼저 준비하게 만듭니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-grid shell">
+        <button class="feature" data-page="rules"><span>01</span><h3>룰을 상황으로 이해</h3><p>LET, STROKE, NO LET을 글보다 상황으로 익힙니다.</p></button>
+        <button class="feature" data-page="techniques"><span>02</span><h3>샷의 목적을 이해</h3><p>스트레이트·크로스·보스트·드롭을 어디서 왜 쓰는지 봅니다.</p></button>
+        <button class="feature" data-page="strategy"><span>03</span><h3>T존과 위치 선정</h3><p>공을 친 뒤 어디로 복귀해야 다음 공이 편해지는지 익힙니다.</p></button>
+        <button class="feature accent" data-page="practice"><span>04</span><h3>실전 판단 게임</h3><p>상대 샷을 읽고 이동한 뒤, 짧은 타이밍에 샷과 파워를 결정합니다.</p></button>
+      </div>
+    </section>
+
+    <section class="page" id="page-basics">
+      <div class="content-hero shell">
+        <span class="eyebrow">START HERE</span><h1>처음 배우기</h1>
+        <p>스쿼시는 두 선수가 같은 코트 안에서 공을 앞벽에 번갈아 치는 라켓 스포츠입니다.</p>
+      </div>
+      <div class="lesson-layout shell">
+        <article class="lesson-main">
+          <div class="lesson-card">
+            <span class="lesson-no">01</span><h2>공은 반드시 앞벽으로</h2>
+            <p>상대에게 보내기 전에 공은 반드시 앞벽을 맞아야 합니다. 옆벽이나 뒷벽을 먼저 이용할 수도 있지만, 결국 앞벽에 유효하게 닿아야 랠리가 이어집니다.</p>
+          </div>
+          <div class="lesson-card"><span class="lesson-no">02</span><h2>한 번 바운드까지 허용</h2><p>상대가 친 공은 바닥에 두 번 닿기 전에 쳐야 합니다. 바운드 전에 치면 발리입니다.</p></div>
+          <div class="lesson-card"><span class="lesson-no">03</span><h2>한 게임은 보통 11점</h2><p>랠리포인트 방식으로 매 랠리마다 점수가 납니다. 10-10이면 2점 차가 날 때까지 계속합니다.</p></div>
+          <div class="lesson-card"><span class="lesson-no">04</span><h2>T는 '자리'보다 '우위'</h2><p>T는 코트 중앙의 기준점입니다. 좋은 샷으로 상대를 코너에 보내고 T 근처를 차지하면 다음 공을 더 적은 거리로 커버할 수 있습니다.</p></div>
+        </article>
+        <aside class="lesson-side">
+          <div class="tip-box"><b>초보자에게 가장 중요한 한 문장</b><p>공만 따라가지 말고, 공을 친 다음에는 다음 공을 준비하세요.</p></div>
+          <button class="primary wide" data-page="practice">게임으로 확인하기</button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="page" id="page-rules">
+      <div class="content-hero shell"><span class="eyebrow">RULES</span><h1>규칙</h1><p>초보자가 실제 경기에서 가장 자주 헷갈리는 규칙만 먼저 정리했습니다.</p></div>
+      <div class="cards shell rules-grid">
+        <article class="info-card"><span class="tag">SCORING</span><h2>점수</h2><p>랠리를 이긴 선수가 1점을 얻습니다. 보통 11점제이며 10-10 이후에는 2점 차가 필요합니다.</p></article>
+        <article class="info-card"><span class="tag">OUT</span><h2>아웃</h2><p>공이 아웃라인 위 또는 밖을 맞거나, 틴을 맞으면 상대가 랠리를 가져갑니다.</p></article>
+        <article class="info-card"><span class="tag">LET</span><h2>Yes Let</h2><p>상대의 위치 때문에 정상적인 플레이가 방해됐지만, 상대도 피하려고 노력했고 좋은 리턴이 가능했을 때 랠리를 다시 할 수 있습니다.</p></article>
+        <article class="info-card"><span class="tag">STROKE</span><h2>Stroke</h2><p>상대가 충분히 비켜주지 않아 좋은 리턴이나 정상적인 스윙이 막혔다면 방해받은 선수에게 랠리가 주어질 수 있습니다.</p></article>
+        <article class="info-card"><span class="tag">NO LET</span><h2>No Let</h2><p>실제로 방해가 없었거나, 공을 칠 수 없었거나, 공을 향해 충분히 움직이지 않았다면 LET이 인정되지 않을 수 있습니다.</p></article>
+        <article class="info-card"><span class="tag">SAFETY</span><h2>안전 우선</h2><p>상대가 스윙이나 공의 직선 경로에 있다면 억지로 치지 말고 플레이를 멈추는 것이 우선입니다.</p></article>
+      </div>
+      <div class="source-note shell">규칙 설명은 World Squash Officiating의 2025 Rules of Squash 기준을 참고한 초보자용 요약입니다.</div>
+    </section>
+
+    <section class="page" id="page-techniques">
+      <div class="content-hero shell"><span class="eyebrow">SHOTS</span><h1>기술</h1><p>샷 이름보다 중요한 것은 “이 샷으로 상대를 어디에 보내는가?”입니다.</p></div>
+      <div class="shot-grid shell">
+        <article class="shot-card"><div class="shot-diagram straight"><i></i></div><span>7 KEY</span><h2>Straight</h2><p>같은 쪽 벽을 따라 깊게 보내 상대를 뒤로 밀어냅니다.</p><b>좋은 파워: 62~78</b></article>
+        <article class="shot-card"><div class="shot-diagram cross"><i></i></div><span>8 KEY</span><h2>Cross</h2><p>반대편 뒤쪽 공간으로 보내 상대의 이동 거리를 크게 만듭니다.</p><b>좋은 파워: 68~84</b></article>
+        <article class="shot-card"><div class="shot-diagram boast"><i></i></div><span>9 KEY</span><h2>Boast</h2><p>옆벽을 먼저 이용해 앞쪽으로 공을 꺾어 상대를 전방으로 끌어냅니다.</p><b>좋은 파워: 48~66</b></article>
+        <article class="shot-card"><div class="shot-diagram drop"><i></i></div><span>0 KEY</span><h2>Drop</h2><p>앞벽 낮은 곳에 부드럽게 떨어뜨려 상대에게 짧은 공을 강요합니다.</p><b>좋은 파워: 24~42</b></article>
+      </div>
+      <div class="cta-strip shell"><div><b>샷은 골랐는데 파워가 틀리면?</b><span>같은 스트레이트도 너무 세면 뒷벽에서 크게 튀고, 너무 약하면 중간에 뜹니다.</span></div><button class="primary" data-page="practice">파워 타이밍 연습</button></div>
+    </section>
+
+    <section class="page" id="page-strategy">
+      <div class="content-hero shell"><span class="eyebrow">TACTICS</span><h1>전술</h1><p>잘 치는 것보다 먼저 준비하는 것이 중요합니다.</p></div>
+      <div class="strategy-flow shell">
+        <div class="flow-step"><span>1</span><b>상대 타구 읽기</b><p>상대의 위치와 공의 초기 방향을 보고 늦기 전에 움직입니다.</p></div>
+        <i>→</i><div class="flow-step"><span>2</span><b>타점 선점</b><p>공이 오는 곳에 끌려가는 것이 아니라 미리 도착해 선택지를 만듭니다.</p></div>
+        <i>→</i><div class="flow-step"><span>3</span><b>샷 선택</b><p>상대 위치를 보고 스트레이트·크로스·보스트·드롭을 고릅니다.</p></div>
+        <i>→</i><div class="flow-step"><span>4</span><b>T 복귀</b><p>타구 후 코너에 머물지 않고 다음 공을 커버할 위치로 돌아옵니다.</p></div>
+      </div>
+      <div class="strategy-grid shell">
+        <article><h2>좋은 Length</h2><p>상대를 뒤쪽 코너로 보내면 상대의 공격 옵션을 줄이고 내가 T 근처를 차지하기 쉬워집니다.</p></article>
+        <article><h2>상대와 공을 같이 보기</h2><p>공만 보면 반응이 늦습니다. 상대의 타점과 몸 방향을 함께 읽으면 첫 발이 빨라집니다.</p></article>
+        <article><h2>T는 고정 점이 아님</h2><p>항상 T 표시 위에 서는 것이 아니라 상대와 공 위치에 따라 약간씩 이동한 '회복 위치'를 잡는 개념입니다.</p></article>
+      </div>
+    </section>
+
+    <section class="page" id="page-practice">
+      <div class="game-shell shell">
+        <div class="game-head">
+          <div><span class="eyebrow">PRACTICE LAB</span><h1>실전 판단 연습</h1><p>상대가 치는 순간 움직이고, 타점에 도착해 샷과 파워를 결정한 뒤 T로 복귀하세요.</p></div>
+          <div class="difficulty">
+            <label>난이도</label>
+            <select id="difficultySelect">
+              <option value="beginner">입문 · 타점 힌트</option>
+              <option value="intermediate">중급 · 짧은 힌트</option>
+              <option value="advanced">고급 · 힌트 없음</option>
+            </select>
+          </div>
+        </div>
+        <div class="game-layout">
+          <div class="canvas-wrap">
+            <canvas id="gameCanvas" width="760" height="900" aria-label="스쿼시 실전 연습 게임"></canvas>
+            <div class="game-overlay" id="gameOverlay">
+              <span class="overlay-kicker">SQUASH PRACTICE</span>
+              <h2>읽고 · 움직이고 · 선택하세요</h2>
+              <p>WASD 이동 · 7/8/9/0 샷 선택 · Q/E 방향 조절 · SPACE 타격/재시작</p>
+              <button class="primary" id="startGameBtn">연습 시작</button>
+            </div>
+          </div>
+          <aside class="game-panel">
+            <div class="status-card">
+              <div><span>RALLY</span><b id="rallyCount">0</b></div>
+              <div><span>T CONTROL</span><b id="tControl">0%</b></div>
+              <div><span>READ</span><b id="readScore">-</b></div>
+            </div>
+
+            <div class="mission-card">
+              <span class="panel-label">CURRENT</span>
+              <h3 id="phaseTitle">상대 샷을 기다리세요</h3>
+              <p id="phaseHelp">게임을 시작하면 상대가 먼저 타구합니다.</p>
+            </div>
+
+            <div class="shot-selector">
+              <span class="panel-label">SHOT SELECT</span>
+              <button data-shot="straight"><kbd>7</kbd><span>Straight<small>깊게 밀기</small></span></button>
+              <button data-shot="cross"><kbd>8</kbd><span>Cross<small>반대 코너</small></span></button>
+              <button data-shot="boast"><kbd>9</kbd><span>Boast<small>앞으로 끌기</small></span></button>
+              <button data-shot="drop"><kbd>0</kbd><span>Drop<small>짧게 끊기</small></span></button>
+            </div>
+
+            <div class="aim-card">
+              <div class="aim-head"><span class="panel-label">STANCE / DIRECTION</span><b id="stanceValue">-</b></div>
+              <div class="aim-status"><span>현재 앞벽 목표</span><strong id="aimValue">50%</strong></div>
+              <div class="aim-buttons">
+                <button type="button" data-aim-step="-1"><kbd>Q</kbd> 왼쪽</button>
+                <button type="button" data-aim-step="1">오른쪽 <kbd>E</kbd></button>
+              </div>
+              <p>오른손잡이 기준 포핸드·백핸드 자세에 따라 앞벽에 보낼 수 있는 각도가 달라집니다.</p>
+            </div>
+
+            <div class="power-card">
+              <div class="power-top"><span class="panel-label">POWER TIMING</span><b id="powerValue">0</b></div>
+              <div class="power-track"><div id="goodZone" class="good-zone"></div><div id="powerFill" class="power-fill"></div><div id="powerNeedle" class="power-needle"></div></div>
+              <p>타격 가능 상태에서 <strong>SPACE</strong>를 눌러 파워를 확정하세요. 랠리 종료 후에도 <strong>SPACE</strong>로 즉시 재시작합니다.</p>
+            </div>
+
+            <div class="feedback-card" id="feedbackCard">
+              <span class="panel-label">COACH</span>
+              <p id="coachText">상대의 타구를 보고 공이 도착할 곳으로 먼저 이동하세요.</p>
+            </div>
+
+            <button class="secondary wide" id="resetGameBtn">처음부터 다시</button>
+          </aside>
+        </div>
+        <div class="game-guide">
+          <div><b>① READ</b><span>상대가 치자마자 방향 판단</span></div>
+          <div><b>② MOVE</b><span>예상 타점으로 먼저 이동</span></div>
+          <div><b>③ HIT</b><span>샷 + 좌우 코스 + 파워 타이밍</span></div>
+          <div><b>④ RECOVER</b><span>공 친 뒤 T 근처로 복귀</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell"><strong>스쿼시 알리기</strong><span>초보자가 경기의 흐름을 이해하도록 돕는 학습형 프로토타입</span></div>
+  </footer>
+  <script>
+(() => {
+  const pages = [...document.querySelectorAll('.page')];
+  const navTargets = [...document.querySelectorAll('[data-page]')];
+  function showPage(id) {
+    pages.forEach(p => p.classList.toggle('active', p.id === `page-${id}`));
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (id === 'practice') requestAnimationFrame(() => game.resizeForDisplay());
+  }
+  navTargets.forEach(el => el.addEventListener('click', () => showPage(el.dataset.page)));
+
+  class SquashPracticeGame {
+    constructor() {
+      this.canvas = document.getElementById('gameCanvas');
+      this.ctx = this.canvas.getContext('2d');
+      this.W = this.canvas.width;
+      this.H = this.canvas.height;
+
+      this.COURT_W = 6.4;
+      this.COURT_L = 9.75;
+      this.FLOOR_TOP = 305;
+      this.FLOOR_BOTTOM = 862;
+      this.FRONT_TOP = 42;
+      this.FRONT_LEFT = 112;
+      this.FRONT_RIGHT = 648;
+
+      this.overlay = document.getElementById('gameOverlay');
+      this.startBtn = document.getElementById('startGameBtn');
+      this.resetBtn = document.getElementById('resetGameBtn');
+      this.difficultySelect = document.getElementById('difficultySelect');
+      this.shotButtons = [...document.querySelectorAll('[data-shot]')];
+      this.directionButtons = [...document.querySelectorAll('[data-aim-step]')];
+      this.ui = {
+        rally: document.getElementById('rallyCount'),
+        tControl: document.getElementById('tControl'),
+        readScore: document.getElementById('readScore'),
+        phaseTitle: document.getElementById('phaseTitle'),
+        phaseHelp: document.getElementById('phaseHelp'),
+        coach: document.getElementById('coachText'),
+        powerValue: document.getElementById('powerValue'),
+        powerNeedle: document.getElementById('powerNeedle'),
+        powerFill: document.getElementById('powerFill'),
+        goodZone: document.getElementById('goodZone'),
+        stance: document.getElementById('stanceValue'),
+        aim: document.getElementById('aimValue')
+      };
+
+      this.keys = new Set();
+      this.shots = {
+        straight: { label: 'Straight', good: [62, 78] },
+        cross: { label: 'Cross', good: [68, 84] },
+        boast: { label: 'Boast', good: [48, 66] },
+        drop: { label: 'Drop', good: [24, 42] }
+      };
+
+      this.bind();
+      this.reset();
+      this.loop(0);
+    }
+
+    bind() {
+      this.startBtn.addEventListener('click', () => this.start());
+      this.resetBtn.addEventListener('click', () => this.start());
+      this.shotButtons.forEach(b => b.addEventListener('click', () => this.selectShot(b.dataset.shot)));
+      this.directionButtons.forEach(b => b.addEventListener('click', () => this.adjustAim(Number(b.dataset.aimStep))));
+
+      window.addEventListener('keydown', e => {
+        if (e.code === 'Space') e.preventDefault();
+        this.keys.add(e.key.toLowerCase());
+
+        const shotMap = { '7': 'straight', '8': 'cross', '9': 'boast', '0': 'drop' };
+        if (shotMap[e.key]) this.selectShot(shotMap[e.key]);
+        if (e.key.toLowerCase() === 'q' && !e.repeat) this.adjustAim(-1);
+        if (e.key.toLowerCase() === 'e' && !e.repeat) this.adjustAim(1);
+
+        if (e.code === 'Space' && !e.repeat) {
+          if (!this.running) this.start();
+          else this.confirmPower();
+        }
+      }, { passive: false });
+      window.addEventListener('keyup', e => this.keys.delete(e.key.toLowerCase()));
+    }
+
+    reset(keepOverlay = false) {
+      this.running = false;
+      this.phase = 'idle';
+      this.rally = 0;
+      this.tControlTime = 0;
+      this.totalTime = 0;
+      this.readScore = '-';
+      this.selectedShot = 'straight';
+      this.stance = 'neutral';
+      this.aimNorm = 0.5;
+      this.aimRange = [0.12, 0.88];
+
+      this.T = { x: this.COURT_W * 0.5, y: this.COURT_L * 0.56 };
+      this.player = { x: this.T.x - 0.25, y: this.T.y + 0.55, r: 0.28, speed: 8.3, facing: -Math.PI / 2 };
+      this.cpu = { x: this.COURT_W * 0.72, y: this.COURT_L * 0.78, r: 0.28, speed: 7.6, facing: -Math.PI / 2 };
+
+      this.ball = { x: this.cpu.x, y: this.cpu.y, screen: this.projectFloor(this.cpu.x, this.cpu.y), r: 7, active: false, owner: 'cpu', path: null, t: 0, duration: 1 };
+      this.contact = { x: this.COURT_W * 0.28, y: this.COURT_L * 0.80, visible: false };
+      this.power = 0;
+      this.powerDir = 1;
+      this.powerActive = false;
+      this.lastTs = performance.now();
+      this.nextAction = 0;
+      this.cpuShotName = '';
+      this.playerHitQuality = 0;
+      this.cpuTarget = null;
+      this.rallyEnded = false;
+
+      this.shotButtons.forEach(b => b.classList.toggle('active', b.dataset.shot === 'straight'));
+      this.updateGoodZone();
+      this.updateUI();
+      this.updateStanceUI();
+      if (!keepOverlay) this.overlay.classList.remove('hidden');
+      this.draw();
+    }
+
+    start() {
+      this.reset(true);
+      this.running = true;
+      this.overlay.classList.add('hidden');
+      this.startBtn.textContent = '다시 연습';
+      this.setCoach('T에서 준비한 뒤 상대가 치는 순간 방향을 읽고 첫 발을 빠르게 내딛으세요.');
+      this.scheduleCpuShot(0.7);
+    }
+
+    resizeForDisplay() {}
+
+    projectFloor(x, y) {
+      const ny = Math.max(0, Math.min(1, y / this.COURT_L));
+      const left = this.FRONT_LEFT - 72 * ny;
+      const right = this.FRONT_RIGHT + 72 * ny;
+      return {
+        x: left + (x / this.COURT_W) * (right - left),
+        y: this.FLOOR_TOP + ny * (this.FLOOR_BOTTOM - this.FLOOR_TOP)
+      };
+    }
+
+    projectWall(xNorm, yPx) {
+      const inset = ((yPx - this.FRONT_TOP) / (this.FLOOR_TOP - this.FRONT_TOP)) * 18;
+      const left = 130 - inset;
+      const right = 630 + inset;
+      return { x: left + xNorm * (right - left), y: yPx };
+    }
+
+    floorEdgeX(yMeters, side) {
+      const p = this.projectFloor(side === 'left' ? 0 : this.COURT_W, yMeters);
+      return p.x;
+    }
+
+
+    // 앞벽(y=0)은 평면 거울처럼 처리한다.
+    // 탑뷰 기준으로 앞벽 충돌 시 좌우(x) 진행 성분은 그대로 유지되고,
+    // 깊이(y) 성분만 반전된다. 따라서 입사 궤적을 그대로 되짚어 오지 않는다.
+    solveFrontImpactNorm(startWorld, targetWorld) {
+      const denom = Math.max(0.001, startWorld.y + targetWorld.y);
+      const frontX = (targetWorld.x * startWorld.y + startWorld.x * targetWorld.y) / denom;
+      return Math.max(0.02, Math.min(0.98, frontX / this.COURT_W));
+    }
+
+    reflectedTargetX(startWorld, frontXNorm, targetY) {
+      const frontX = frontXNorm * this.COURT_W;
+      const approachDepth = Math.max(0.35, startWorld.y);
+      // v_in = (frontX-startX, -startY), v_out = (same dx, +startY)
+      return frontX + (frontX - startWorld.x) * (targetY / approachDepth);
+    }
+
+    geometricAimRange(startWorld, targetY) {
+      const denom = Math.max(0.001, startWorld.y + targetY);
+      const minFrontX = startWorld.x * targetY / denom;
+      const maxFrontX = (this.COURT_W * startWorld.y + startWorld.x * targetY) / denom;
+      return [
+        Math.max(0.02, minFrontX / this.COURT_W),
+        Math.min(0.98, maxFrontX / this.COURT_W)
+      ];
+    }
+
+    shotGeometry(shot, startWorld, preferredAim = null) {
+      const onLeft = startWorld.x < this.COURT_W / 2;
+      if (shot === 'boast') {
+        const sideY = Math.max(1.5, Math.min(6.5, startWorld.y * 0.62));
+        const sideWorld = { x: onLeft ? 0 : this.COURT_W, y: sideY };
+        const targetY = 2.4;
+        const desired = { x: onLeft ? 5.15 : 1.25, y: targetY };
+        const frontXNorm = preferredAim ?? this.solveFrontImpactNorm(sideWorld, desired);
+        const targetX = this.reflectedTargetX(sideWorld, frontXNorm, targetY);
+        return {
+          sideWorld,
+          frontXNorm,
+          target: { x: Math.max(0.2, Math.min(this.COURT_W - 0.2, targetX)), y: targetY },
+          targetY
+        };
+      }
+
+      let targetY = 8.35;
+      let desiredX = onLeft ? 0.82 : 5.58;
+      if (shot === 'cross') { targetY = 7.9; desiredX = onLeft ? 5.35 : 1.05; }
+      if (shot === 'drop') { targetY = 1.7; desiredX = onLeft ? 1.0 : 5.4; }
+      const desired = { x: desiredX, y: targetY };
+      const frontXNorm = preferredAim ?? this.solveFrontImpactNorm(startWorld, desired);
+      const targetX = this.reflectedTargetX(startWorld, frontXNorm, targetY);
+      return {
+        sideWorld: null,
+        frontXNorm,
+        target: { x: Math.max(0.2, Math.min(this.COURT_W - 0.2, targetX)), y: targetY },
+        targetY
+      };
+    }
+
+    selectShot(name) {
+      if (!this.shots[name]) return;
+      this.selectedShot = name;
+      this.shotButtons.forEach(b => b.classList.toggle('active', b.dataset.shot === name));
+      this.updateGoodZone();
+      if (this.phase === 'strikeWindow') this.applyShotPresetAim();
+    }
+
+    updateGoodZone() {
+      const [a, b] = this.shots[this.selectedShot].good;
+      this.ui.goodZone.style.left = `${a}%`;
+      this.ui.goodZone.style.width = `${b - a}%`;
+    }
+
+    scheduleCpuShot(delay) {
+      this.phase = 'cpuPrepare';
+      this.nextAction = performance.now() + delay * 1000;
+      this.ball.active = false;
+      this.powerActive = false;
+      this.setPhase('상대 타구 준비', 'T를 기준으로 상대의 몸 방향과 타구 순간을 보세요.');
+    }
+
+    cpuHit() {
+      const options = ['straight', 'cross', 'boast', 'drop'];
+      const shot = options[Math.floor(Math.random() * options.length)];
+      this.cpuShotName = shot;
+
+      const geometry = this.shotGeometry(shot, { x: this.cpu.x, y: this.cpu.y });
+      const target = geometry.target;
+      this.contact = { ...target, visible: this.difficultySelect.value !== 'advanced' };
+      const wallY = shot === 'drop' ? 226 : shot === 'boast' ? 180 : 150;
+
+      this.ball.active = true;
+      this.ball.owner = 'cpu';
+      this.ball.t = 0;
+      this.ball.duration = shot === 'drop' ? 1.25 : shot === 'boast' ? 1.42 : 1.58;
+      this.ball.path = this.makeBallPath(
+        { x: this.cpu.x, y: this.cpu.y },
+        target,
+        shot,
+        geometry.frontXNorm,
+        wallY,
+        geometry.sideWorld
+      );
+      this.phase = 'userReceive';
+      this.readStarted = performance.now();
+      this.powerActive = false;
+      this.setPhase('상대 타구! 타점으로 이동', 'T에서 출발하면 대부분의 코너볼을 커버할 수 있습니다. 공이 아니라 도착할 타점을 향해 이동하세요.');
+      this.setCoach('상대가 친 직후 첫 발을 내딛고, 마지막 한두 걸음으로 타점 거리를 조절하세요.');
+    }
+
+    makeBallPath(startWorld, targetWorld, shot, frontXNorm, wallY, sideWorld = null) {
+      const start = this.projectFloor(startWorld.x, startWorld.y);
+      const target = this.projectFloor(targetWorld.x, targetWorld.y);
+      const front = this.projectWall(frontXNorm, wallY);
+      if (shot === 'boast' && sideWorld) {
+        const sideFloor = this.projectFloor(sideWorld.x, sideWorld.y);
+        const side = { x: sideFloor.x, y: sideFloor.y - 28 };
+        return { shot, start, side, front, target };
+      }
+      return { shot, start, front, target };
+    }
+
+    lerp(a, b, t) { return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t }; }
+    bezier(a, b, c, t) {
+      const u = 1 - t;
+      return { x: u * u * a.x + 2 * u * t * b.x + t * t * c.x, y: u * u * a.y + 2 * u * t * b.y + t * t * c.y };
+    }
+
+    ballPoint(path, t) {
+      if (path.shot === 'boast') {
+        if (t < 0.25) return this.lerp(path.start, path.side, t / 0.25);
+        if (t < 0.48) return this.lerp(path.side, path.front, (t - 0.25) / 0.23);
+        const q = (t - 0.48) / 0.52;
+        const ctrl = { x: (path.front.x + path.target.x) / 2, y: this.FLOOR_TOP + 155 };
+        return this.bezier(path.front, ctrl, path.target, q);
+      }
+      if (t < 0.42) return this.lerp(path.start, path.front, t / 0.42);
+      const q = (t - 0.42) / 0.58;
+      const arc = path.shot === 'drop' ? 75 : 155;
+      const ctrl = { x: (path.front.x + path.target.x) / 2, y: this.FLOOR_TOP + arc };
+      return this.bezier(path.front, ctrl, path.target, q);
+    }
+
+    enterStrikeWindow() {
+      if (this.phase === 'strikeWindow') return;
+      this.phase = 'strikeWindow';
+      this.powerActive = true;
+      this.power = 0;
+      this.powerDir = 1;
+      const reaction = (performance.now() - this.readStarted) / 1000;
+      this.readScore = reaction < 0.68 ? 'A' : reaction < 1.02 ? 'B' : 'C';
+      this.detectStance();
+      this.applyShotPresetAim();
+      this.setPhase('샷 방향 + 파워 결정', '7/8/9/0 샷 선택 · Q/E로 좌우 코스 조절 · SPACE로 파워 확정');
+    }
+
+    detectStance() {
+      // 오른손잡이 기준: 오른쪽 코너의 공은 포핸드, 왼쪽 코너의 공은 백핸드 자세가 기본이다.
+      this.stance = this.contact.x >= this.COURT_W * 0.5 ? 'forehand' : 'backhand';
+      this.updateAimRange();
+      this.updateStanceUI();
+    }
+
+    updateAimRange() {
+      const start = { x: this.player.x, y: this.player.y };
+      const base = this.stance === 'forehand' ? [0.12, 0.94] : [0.06, 0.88];
+      let incoming = start;
+      let targetY = this.selectedShot === 'drop' ? 1.7 : this.selectedShot === 'cross' ? 7.9 : 8.35;
+      if (this.selectedShot === 'boast') {
+        const onLeft = start.x < this.COURT_W / 2;
+        const sideY = Math.max(1.5, Math.min(6.5, start.y * 0.62));
+        incoming = { x: onLeft ? 0 : this.COURT_W, y: sideY };
+        targetY = 2.4;
+      }
+      const geo = this.geometricAimRange(incoming, targetY);
+      this.aimRange = [Math.max(base[0], geo[0]), Math.min(base[1], geo[1])];
+      if (this.aimRange[0] > this.aimRange[1]) this.aimRange = geo;
+    }
+
+    applyShotPresetAim() {
+      this.updateAimRange();
+      const geometry = this.shotGeometry(this.selectedShot, { x: this.player.x, y: this.player.y });
+      this.aimNorm = Math.max(this.aimRange[0], Math.min(this.aimRange[1], geometry.frontXNorm));
+      this.updateStanceUI();
+    }
+
+    adjustAim(step) {
+      if (!this.running || this.phase !== 'strikeWindow') return;
+      this.aimNorm = Math.max(this.aimRange[0], Math.min(this.aimRange[1], this.aimNorm + step * 0.075));
+      this.updateStanceUI();
+    }
+
+    updateStanceUI() {
+      if (this.ui.stance) {
+        this.ui.stance.textContent = this.stance === 'forehand' ? 'FOREHAND' : this.stance === 'backhand' ? 'BACKHAND' : '-';
+      }
+      if (this.ui.aim) this.ui.aim.textContent = `${Math.round(this.aimNorm * 100)}%`;
+    }
+
+    confirmPower() {
+      if (!this.running || this.phase !== 'strikeWindow' || !this.powerActive) return;
+      const d = Math.hypot(this.player.x - this.contact.x, this.player.y - this.contact.y);
+      if (d > 1.15) {
+        this.setCoach('타점과 거리가 있습니다. 공 옆으로 한두 걸음 더 접근한 뒤 타격하세요.');
+        return;
+      }
+      const [a, b] = this.shots[this.selectedShot].good;
+      const center = (a + b) / 2;
+      this.playerHitQuality = Math.max(0, 100 - Math.abs(this.power - center) * 3.0);
+      this.powerActive = false;
+      this.rally++;
+      this.ui.rally.textContent = this.rally;
+      this.userHit();
+    }
+
+    userHit() {
+      const shot = this.selectedShot;
+      const start = { x: this.player.x, y: this.player.y };
+      const geometry = this.shotGeometry(shot, start, this.aimNorm);
+      const target = geometry.target;
+      const wallY = shot === 'drop' ? 228 : shot === 'boast' ? 182 : 148;
+
+      this.ball.path = this.makeBallPath(
+        start,
+        target,
+        shot,
+        geometry.frontXNorm,
+        wallY,
+        geometry.sideWorld
+      );
+      this.ball.t = 0;
+      // 강한 공일수록 상대에게 도착하는 시간은 조금 짧아진다.
+      this.ball.duration = Math.max(0.95, 1.52 - (this.power / 100) * 0.34 + (shot === 'drop' ? 0.08 : 0));
+      this.ball.owner = 'user';
+      this.ball.active = true;
+      this.phase = 'cpuReceive';
+      this.cpuTarget = target;
+      this.contact.visible = false;
+
+      const quality = this.playerHitQuality > 78 ? '좋은 타구!' : this.playerHitQuality > 48 ? '무난한 타구' : '파워가 어긋났습니다.';
+      this.setPhase('T로 복귀하세요', `${quality} 상대가 다음 공을 치기 전에 중앙 회복 위치를 잡으세요.`);
+      this.setCoach(`${quality} 앞벽에서 입사각과 반사각이 이어지는 실제 반사 방향으로 공이 나갑니다. 공을 구경하지 말고 T 쪽으로 복귀하세요.`);
+    }
+
+    setPhase(title, help) { this.ui.phaseTitle.textContent = title; this.ui.phaseHelp.textContent = help; }
+    setCoach(text) { this.ui.coach.textContent = text; }
+
+    moveEntityToward(entity, target, speed, dt) {
+      let dx = target.x - entity.x;
+      let dy = target.y - entity.y;
+      const d = Math.hypot(dx, dy);
+      if (d < 0.03) return true;
+      const step = Math.min(d, speed * dt);
+      entity.x += dx / d * step;
+      entity.y += dy / d * step;
+      entity.facing = Math.atan2(dy, dx);
+      return d < 0.18;
+    }
+
+    update(dt, now) {
+      if (!this.running) return;
+      this.totalTime += dt;
+
+      const dx = (this.keys.has('d') ? 1 : 0) - (this.keys.has('a') ? 1 : 0);
+      const dy = (this.keys.has('s') ? 1 : 0) - (this.keys.has('w') ? 1 : 0);
+      const len = Math.hypot(dx, dy) || 1;
+      if (dx || dy) {
+        this.player.x += dx / len * this.player.speed * dt;
+        this.player.y += dy / len * this.player.speed * dt;
+        this.player.facing = Math.atan2(dy, dx);
+      }
+      this.player.x = Math.max(0.25, Math.min(this.COURT_W - 0.25, this.player.x));
+      this.player.y = Math.max(0.65, Math.min(this.COURT_L - 0.25, this.player.y));
+
+      if (Math.hypot(this.player.x - this.T.x, this.player.y - this.T.y) < 1.05) this.tControlTime += dt;
+
+      if (this.phase === 'cpuPrepare') {
+        // 다음 타구 전 CPU도 T 근처에서 출발해 실제적인 중앙 회복을 보여준다.
+        this.moveEntityToward(this.cpu, this.T, this.cpu.speed * 0.75, dt);
+        if (now >= this.nextAction) {
+          // CPU가 T에 너무 붙어 있으면 임의의 후방 타점으로 옮겨 타구 상황을 만든다.
+          if (Math.hypot(this.cpu.x - this.T.x, this.cpu.y - this.T.y) < 1.1) {
+            const left = Math.random() < 0.5;
+            this.cpu.x = left ? 1.05 : 5.35;
+            this.cpu.y = 7.2 + Math.random() * 1.2;
+          }
+          this.cpuHit();
+        }
+      }
+
+      if (this.ball.active && this.ball.path) {
+        this.ball.t += dt / this.ball.duration;
+        const t = Math.min(1, this.ball.t);
+        this.ball.screen = this.ballPoint(this.ball.path, t);
+
+        if (this.ball.owner === 'cpu') {
+          // CPU는 타구 후 T로 회복한다. 이 덕분에 중앙 선점의 의미가 시각적으로 드러난다.
+          this.moveEntityToward(this.cpu, this.T, this.cpu.speed * 0.72, dt);
+
+          if (this.difficultySelect.value === 'intermediate' && t > 0.34) this.contact.visible = false;
+          if (t > 0.68 && this.phase === 'userReceive') {
+            const dist = Math.hypot(this.player.x - this.contact.x, this.player.y - this.contact.y);
+            if (dist < 1.35) this.enterStrikeWindow();
+          }
+          if (t >= 1) {
+            const dist = Math.hypot(this.player.x - this.contact.x, this.player.y - this.contact.y);
+            if (dist > 1.45) {
+              this.endRally('타점에 늦었습니다.', 'T에서 출발했다면 대부분 도달 가능합니다. 공이 튄 뒤 쫓기보다 상대 임팩트 순간부터 움직여 보세요.');
+            } else {
+              this.enterStrikeWindow();
+              this.ball.t = 0.995;
+            }
+          }
+        } else {
+          // CPU는 먼저 공의 예상 타점으로 이동. T에서 출발하면 대부분의 정상적인 공은 커버 가능하다.
+          this.moveCpu(dt);
+          if (t >= 1) {
+            const cpuDist = Math.hypot(this.cpu.x - this.cpuTarget.x, this.cpu.y - this.cpuTarget.y);
+            const playerAtT = Math.hypot(this.player.x - this.T.x, this.player.y - this.T.y) < 1.15;
+            const excellent = this.playerHitQuality > 84;
+
+            if (cpuDist > 1.5 || (excellent && playerAtT && Math.random() < 0.16)) {
+              this.endRally('상대를 흔들었습니다!', '좋은 샷 뒤 T를 회복하면 상대의 다음 선택지가 줄어듭니다.', true);
+            } else {
+              this.cpu.x = this.cpuTarget.x;
+              this.cpu.y = this.cpuTarget.y;
+              this.ball.active = false;
+              this.scheduleCpuShot(0.48);
+            }
+          }
+        }
+      }
+
+      if (this.powerActive) {
+        this.power += this.powerDir * 150 * dt;
+        if (this.power >= 100) { this.power = 100; this.powerDir = -1; }
+        if (this.power <= 0) { this.power = 0; this.powerDir = 1; }
+        this.ui.powerValue.textContent = Math.round(this.power);
+        this.ui.powerNeedle.style.left = `${this.power}%`;
+        this.ui.powerFill.style.width = `${this.power}%`;
+      }
+
+      const tc = this.totalTime ? Math.round(this.tControlTime / this.totalTime * 100) : 0;
+      this.ui.tControl.textContent = `${tc}%`;
+      this.ui.readScore.textContent = this.readScore;
+    }
+
+    moveCpu(dt) {
+      if (!this.cpuTarget) return;
+      this.moveEntityToward(this.cpu, this.cpuTarget, this.cpu.speed, dt);
+    }
+
+    endRally(title, coach, won = false) {
+      this.running = false;
+      this.rallyEnded = true;
+      this.ball.active = false;
+      this.powerActive = false;
+      this.setPhase(title, won ? '랠리 성공. SPACE를 눌러 바로 다시 연습할 수 있습니다.' : '랠리가 끝났습니다. SPACE를 눌러 다시 연습하세요.');
+      this.setCoach(coach);
+      setTimeout(() => {
+        this.overlay.classList.remove('hidden');
+        this.overlay.querySelector('h2').textContent = won ? 'GOOD RALLY' : '다시 한 번';
+        this.overlay.querySelector('p').textContent = `Rally ${this.rally} · T Control ${this.ui.tControl.textContent} · Read ${this.readScore} · SPACE로 재시작`;
+        this.startBtn.textContent = '다시 연습';
+      }, 360);
+    }
+
+    updateUI() {
+      this.ui.rally.textContent = this.rally;
+      this.ui.tControl.textContent = '0%';
+      this.ui.readScore.textContent = '-';
+      this.ui.powerValue.textContent = '0';
+      this.ui.powerNeedle.style.left = '0%';
+      this.ui.powerFill.style.width = '0%';
+    }
+
+    drawCourt() {
+      const c = this.ctx;
+      c.clearRect(0, 0, this.W, this.H);
+
+      // 배경
+      const bg = c.createLinearGradient(0, 0, 0, this.H);
+      bg.addColorStop(0, '#101815');
+      bg.addColorStop(1, '#080d0b');
+      c.fillStyle = bg;
+      c.fillRect(0, 0, this.W, this.H);
+
+      // 앞벽: 지면과 완전히 분리된 수직 면
+      c.beginPath();
+      c.moveTo(130, this.FRONT_TOP);
+      c.lineTo(630, this.FRONT_TOP);
+      c.lineTo(this.FRONT_RIGHT, this.FLOOR_TOP);
+      c.lineTo(this.FRONT_LEFT, this.FLOOR_TOP);
+      c.closePath();
+      c.fillStyle = '#dfe5df';
+      c.fill();
+      c.strokeStyle = '#7f8b86';
+      c.lineWidth = 3;
+      c.stroke();
+
+      // 앞벽 아웃라인 / 서비스 라인
+      c.strokeStyle = '#7b8782';
+      c.lineWidth = 2;
+      c.beginPath();
+      c.moveTo(125, 92); c.lineTo(635, 92);
+      c.moveTo(118, 180); c.lineTo(642, 180);
+      c.stroke();
+
+      // TIN: 앞벽 하단부. 바닥이 아니라 수직 벽에 붙은 영역.
+      c.beginPath();
+      c.moveTo(113, 244);
+      c.lineTo(647, 244);
+      c.lineTo(this.FRONT_RIGHT, this.FLOOR_TOP);
+      c.lineTo(this.FRONT_LEFT, this.FLOOR_TOP);
+      c.closePath();
+      c.fillStyle = '#aeb8b1';
+      c.fill();
+      c.strokeStyle = '#6f7b76';
+      c.stroke();
+
+      c.fillStyle = '#43504b';
+      c.textAlign = 'center';
+      c.font = '900 11px Arial';
+      c.fillText('FRONT WALL', this.W / 2, 68);
+      c.fillText('TIN · OUT', this.W / 2, 275);
+
+      // 바닥: 앞벽 하단부터 뒤쪽으로 넓어지는 사다리꼴
+      const fl = this.projectFloor(0, 0);
+      const fr = this.projectFloor(this.COURT_W, 0);
+      const bl = this.projectFloor(0, this.COURT_L);
+      const br = this.projectFloor(this.COURT_W, this.COURT_L);
+      c.beginPath();
+      c.moveTo(fl.x, fl.y); c.lineTo(fr.x, fr.y); c.lineTo(br.x, br.y); c.lineTo(bl.x, bl.y); c.closePath();
+      const floorGrad = c.createLinearGradient(0, this.FLOOR_TOP, 0, this.FLOOR_BOTTOM);
+      floorGrad.addColorStop(0, '#d4ddd6');
+      floorGrad.addColorStop(1, '#edf1ed');
+      c.fillStyle = floorGrad;
+      c.fill();
+      c.strokeStyle = '#65716c';
+      c.lineWidth = 4;
+      c.stroke();
+
+      // 서비스 박스/하프코트 라인 - 바닥 원근 투영
+      const midFront = this.projectFloor(this.COURT_W / 2, this.COURT_L * 0.5);
+      const midBack = this.projectFloor(this.COURT_W / 2, this.COURT_L);
+      const serviceY = this.COURT_L * 0.56;
+      const sl = this.projectFloor(0.75, serviceY);
+      const sr = this.projectFloor(this.COURT_W - 0.75, serviceY);
+      c.strokeStyle = '#87928e';
+      c.lineWidth = 2;
+      c.beginPath();
+      c.moveTo(midFront.x, midFront.y); c.lineTo(midBack.x, midBack.y);
+      c.moveTo(sl.x, sl.y); c.lineTo(sr.x, sr.y);
+      c.stroke();
+
+      // T 존
+      const tp = this.projectFloor(this.T.x, this.T.y);
+      const scale = 1 + (this.T.y / this.COURT_L) * 0.4;
+      c.save();
+      c.translate(tp.x, tp.y);
+      c.strokeStyle = '#727f79';
+      c.lineWidth = 2;
+      c.setLineDash([6, 5]);
+      c.beginPath();
+      c.ellipse(0, 0, 44 * scale, 25 * scale, 0, 0, Math.PI * 2);
+      c.stroke();
+      c.setLineDash([]);
+      c.fillStyle = '#68736f';
+      c.font = '900 13px Arial';
+      c.fillText('T', 0, 5);
+      c.restore();
+
+      // 바닥/앞벽 경계 강조
+      c.strokeStyle = '#38443f';
+      c.lineWidth = 5;
+      c.beginPath();
+      c.moveTo(this.FRONT_LEFT, this.FLOOR_TOP);
+      c.lineTo(this.FRONT_RIGHT, this.FLOOR_TOP);
+      c.stroke();
+    }
+
+    drawAimGuide() {
+      if (!this.running || this.phase !== 'strikeWindow') return;
+      const c = this.ctx;
+      const rangeLeft = this.projectWall(this.aimRange[0], 142);
+      const rangeRight = this.projectWall(this.aimRange[1], 142);
+      const aim = this.projectWall(this.aimNorm, 142);
+      const pp = this.projectFloor(this.player.x, this.player.y);
+
+      // 가능한 타구 범위를 앞벽에 표시
+      c.save();
+      c.fillStyle = 'rgba(217,255,67,.16)';
+      c.fillRect(rangeLeft.x, 118, Math.max(8, rangeRight.x - rangeLeft.x), 50);
+      c.strokeStyle = 'rgba(217,255,67,.72)';
+      c.setLineDash([7, 6]);
+      c.strokeRect(rangeLeft.x, 118, Math.max(8, rangeRight.x - rangeLeft.x), 50);
+      c.setLineDash([]);
+
+      c.strokeStyle = '#d9ff43';
+      c.lineWidth = 2.5;
+      c.beginPath();
+      c.moveTo(pp.x, pp.y - 10);
+      c.lineTo(aim.x, aim.y);
+      c.stroke();
+      c.beginPath();
+      c.arc(aim.x, aim.y, 9, 0, Math.PI * 2);
+      c.stroke();
+
+      c.fillStyle = '#26312d';
+      c.font = '900 10px Arial';
+      c.textAlign = 'center';
+      c.fillText(this.stance === 'forehand' ? 'FOREHAND RANGE' : 'BACKHAND RANGE', (rangeLeft.x + rangeRight.x) / 2, 108);
+      c.restore();
+    }
+
+    drawPlayer(p, color, label, isUser = false) {
+      const c = this.ctx;
+      const s = this.projectFloor(p.x, p.y);
+      const depthScale = 0.78 + (p.y / this.COURT_L) * 0.42;
+      const r = 18 * depthScale;
+
+      c.save();
+      c.translate(s.x, s.y);
+      c.fillStyle = '#0003';
+      c.beginPath();
+      c.ellipse(4, r * 0.72, r * 1.25, r * 0.5, 0, 0, Math.PI * 2);
+      c.fill();
+
+      c.fillStyle = color;
+      c.beginPath();
+      c.arc(0, 0, r, 0, Math.PI * 2);
+      c.fill();
+
+      // 몸 방향과 라켓 방향을 단순화해 보여준다.
+      const face = isUser && this.phase === 'strikeWindow'
+        ? Math.atan2(this.projectWall(this.aimNorm, 142).y - s.y, this.projectWall(this.aimNorm, 142).x - s.x)
+        : p.facing;
+      c.rotate(face);
+      c.strokeStyle = isUser && this.stance === 'backhand' ? '#5d6964' : '#26302d';
+      c.lineWidth = 5;
+      const racketSide = isUser && this.stance === 'backhand' ? -1 : 1;
+      c.beginPath();
+      c.moveTo(8, racketSide * 4);
+      c.lineTo(30, racketSide * 15);
+      c.stroke();
+      c.rotate(-face);
+
+      c.fillStyle = 'white';
+      c.font = `900 ${Math.round(9 * depthScale)}px Arial`;
+      c.textAlign = 'center';
+      c.fillText(label, 0, 4);
+
+      if (isUser && this.phase === 'strikeWindow') {
+        c.fillStyle = '#1b2421';
+        c.fillRect(-35, -r - 26, 70, 18);
+        c.fillStyle = '#d9ff43';
+        c.font = '900 9px Arial';
+        c.fillText(this.stance === 'forehand' ? 'FOREHAND' : 'BACKHAND', 0, -r - 13);
+      }
+      c.restore();
+    }
+
+    draw() {
+      this.drawCourt();
+      const c = this.ctx;
+
+      if (this.contact.visible && this.running) {
+        const target = this.projectFloor(this.contact.x, this.contact.y);
+        c.save();
+        c.strokeStyle = '#a6bc35';
+        c.lineWidth = 3;
+        c.setLineDash([8, 7]);
+        c.beginPath();
+        c.ellipse(target.x, target.y, 45, 26, 0, 0, Math.PI * 2);
+        c.stroke();
+        c.setLineDash([]);
+        c.fillStyle = '#59672b';
+        c.font = '900 10px Arial';
+        c.textAlign = 'center';
+        c.fillText('TARGET', target.x, target.y + 4);
+        c.restore();
+      }
+
+      this.drawAimGuide();
+
+      if (this.ball.active) {
+        c.fillStyle = '#d9ff43';
+        c.shadowColor = '#d9ff43';
+        c.shadowBlur = 18;
+        c.beginPath();
+        c.arc(this.ball.screen.x, this.ball.screen.y, this.ball.r, 0, Math.PI * 2);
+        c.fill();
+        c.shadowBlur = 0;
+      }
+
+      this.drawPlayer(this.cpu, '#ef715f', 'CPU', false);
+      this.drawPlayer(this.player, '#14201d', 'YOU', true);
+
+      if (this.running && this.phase === 'cpuReceive') {
+        const p = this.projectFloor(this.player.x, this.player.y);
+        const t = this.projectFloor(this.T.x, this.T.y);
+        c.strokeStyle = '#788681';
+        c.setLineDash([5, 5]);
+        c.beginPath();
+        c.moveTo(p.x, p.y);
+        c.lineTo(t.x, t.y);
+        c.stroke();
+        c.setLineDash([]);
+      }
+    }
+
+    loop(ts) {
+      const dt = Math.min(0.033, (ts - this.lastTs) / 1000 || 0);
+      this.lastTs = ts;
+      this.update(dt, ts);
+      this.draw();
+      requestAnimationFrame(t => this.loop(t));
+    }
+  }
+
+  const game = new SquashPracticeGame();
+})();
+
+</script>
+</body>
+</html>
