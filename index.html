@@ -14,6 +14,7 @@
 .aim-card{background:#111817;border:1px solid var(--line);border-radius:14px;padding:18px}.aim-head,.aim-status{display:flex;justify-content:space-between;align-items:center}.aim-head b{color:var(--accent);font-size:13px}.aim-status{margin:12px 0;color:#7f8c87;font-size:12px}.aim-status strong{color:white}.aim-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.aim-buttons button{background:#18211f;border:1px solid #2a3733;color:white;border-radius:10px;padding:10px 12px;cursor:pointer;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px}.aim-buttons button:hover{border-color:var(--accent)}.aim-buttons kbd{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 6px;background:#293531;border-radius:6px;color:var(--accent);font-weight:900}.aim-card p{margin:10px 0 0;color:#82908b;font-size:12px;line-height:1.55}
 
 </style>
+  <link rel="stylesheet" href="practice.css?v=solo-3" />
 </head>
 <body>
   <header class="topbar">
@@ -29,7 +30,7 @@
       <button data-page="rules">규칙</button>
       <button data-page="techniques">기술</button>
       <button data-page="strategy">전술</button>
-      <button class="nav-game" data-page="practice">실전 연습</button>
+      <button class="nav-game" data-page="practice">스쿼시 체험하기</button>
     </nav>
   </header>
 
@@ -41,7 +42,7 @@
           <h1>벽을 치는 운동이 아니라,<br><em>공간을 빼앗는 게임.</em></h1>
           <p>룰을 읽고 끝내지 마세요. 상대 타구를 읽고, 먼저 움직이고, 샷을 선택하고, 다시 T로 돌아오는 흐름을 직접 연습합니다.</p>
           <div class="hero-actions">
-            <button class="primary" data-page="practice">바로 게임 시작</button>
+            <button class="primary" data-page="practice">스쿼시 체험하기</button>
             <button class="secondary" data-page="basics">스쿼시 5분 입문</button>
           </div>
           <div class="hero-stats">
@@ -139,9 +140,11 @@
     </section>
 
     <section class="page" id="page-practice">
-      <div class="game-shell shell">
+      <div class="game-shell shell" id="cpuPractice" hidden>
+        <button class="secondary" id="cpuBack">캐릭터 변경 / 모드 선택</button>
+        <p id="cpuCharacter" class="solo-help"></p>
         <div class="game-head">
-          <div><span class="eyebrow">PRACTICE LAB</span><h1>실전 판단 연습</h1><p>상대가 치는 순간 움직이고, 타점에 도착해 샷과 파워를 결정한 뒤 T로 복귀하세요.</p></div>
+          <div><span class="eyebrow">PRACTICE LAB</span><h1>CPU와 대전 · 기존 연습</h1><p>상대가 치는 순간 움직이고, 타점에 도착해 샷과 파워를 결정한 뒤 T로 복귀하세요.</p></div>
           <div class="difficulty">
             <label>난이도</label>
             <select id="difficultySelect">
@@ -224,6 +227,7 @@
   const pages = [...document.querySelectorAll('.page')];
   const navTargets = [...document.querySelectorAll('[data-page]')];
   function showPage(id) {
+    window.dispatchEvent(new CustomEvent('practice-page-change', { detail: id }));
     pages.forEach(p => p.classList.toggle('active', p.id === `page-${id}`));
     window.scrollTo({ top: 0, behavior: 'instant' });
     if (id === 'practice') requestAnimationFrame(() => game.resizeForDisplay());
@@ -266,6 +270,7 @@
         aim: document.getElementById('aimValue')
       };
 
+      this.characterSpeed = 8.3;
       this.keys = new Set();
       this.shots = {
         straight: { label: 'Straight', good: [62, 78] },
@@ -285,7 +290,13 @@
       this.shotButtons.forEach(b => b.addEventListener('click', () => this.selectShot(b.dataset.shot)));
       this.directionButtons.forEach(b => b.addEventListener('click', () => this.adjustAim(Number(b.dataset.aimStep))));
 
+      window.addEventListener('practice-stop-cpu', () => { this.running = false; this.keys.clear(); clearTimeout(this.endTimer); });
+      window.addEventListener('practice-start-cpu', e => { this.characterSpeed = e.detail.speed * 1.8; this.reset(); });
+      window.addEventListener('practice-page-change', () => this.keys.clear());
+      window.addEventListener('blur', () => this.keys.clear());
       window.addEventListener('keydown', e => {
+        if (!document.getElementById('page-practice').classList.contains('active') || document.getElementById('cpuPractice').hidden) return;
+        if (/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return;
         if (e.code === 'Space') e.preventDefault();
         this.keys.add(e.key.toLowerCase());
 
@@ -303,6 +314,8 @@
     }
 
     reset(keepOverlay = false) {
+      clearTimeout(this.endTimer);
+      this.keys.clear();
       this.running = false;
       this.phase = 'idle';
       this.rally = 0;
@@ -315,7 +328,7 @@
       this.aimRange = [0.12, 0.88];
 
       this.T = { x: this.COURT_W * 0.5, y: this.COURT_L * 0.56 };
-      this.player = { x: this.T.x - 0.25, y: this.T.y + 0.55, r: 0.28, speed: 8.3, facing: -Math.PI / 2 };
+      this.player = { x: this.T.x - 0.25, y: this.T.y + 0.55, r: 0.28, speed: this.characterSpeed, facing: -Math.PI / 2 };
       this.cpu = { x: this.COURT_W * 0.72, y: this.COURT_L * 0.78, r: 0.28, speed: 7.6, facing: -Math.PI / 2 };
 
       this.ball = { x: this.cpu.x, y: this.cpu.y, screen: this.projectFloor(this.cpu.x, this.cpu.y), r: 7, active: false, owner: 'cpu', path: null, t: 0, duration: 1 };
@@ -730,7 +743,7 @@
       this.powerActive = false;
       this.setPhase(title, won ? '랠리 성공. SPACE를 눌러 바로 다시 연습할 수 있습니다.' : '랠리가 끝났습니다. SPACE를 눌러 다시 연습하세요.');
       this.setCoach(coach);
-      setTimeout(() => {
+      this.endTimer = setTimeout(() => {
         this.overlay.classList.remove('hidden');
         this.overlay.querySelector('h2').textContent = won ? 'GOOD RALLY' : '다시 한 번';
         this.overlay.querySelector('p').textContent = `Rally ${this.rally} · T Control ${this.ui.tControl.textContent} · Read ${this.readScore} · SPACE로 재시작`;
@@ -985,8 +998,10 @@
     loop(ts) {
       const dt = Math.min(0.033, (ts - this.lastTs) / 1000 || 0);
       this.lastTs = ts;
-      this.update(dt, ts);
-      this.draw();
+      if (document.getElementById('page-practice').classList.contains('active') && !document.getElementById('cpuPractice').hidden && !document.hidden) {
+        this.update(dt, ts);
+        this.draw();
+      }
       requestAnimationFrame(t => this.loop(t));
     }
   }
@@ -995,5 +1010,7 @@
 })();
 
 </script>
+<script src="practice-physics.js?v=solo-3"></script>
+<script src="practice.js?v=solo-3"></script>
 </body>
 </html>
