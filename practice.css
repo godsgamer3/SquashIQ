@@ -4,13 +4,17 @@
 .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
 .mode-card{padding:30px;border:1px solid var(--line);border-radius:18px;background:var(--panel);color:var(--text);text-align:left;cursor:pointer}
 .mode-card:hover,.mode-card:focus-visible{border-color:var(--accent)}.mode-card h2{font-size:26px;margin:12px 0}.mode-card p{color:var(--muted)}
+.rally-card{border-color:#717d42;background:linear-gradient(135deg,#293523,var(--panel))}.rally-card b{color:var(--accent)}
 .character-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:22px 0}
 .character-card{background:var(--panel);color:var(--text);border:2px solid var(--line);border-radius:16px;padding:18px;text-align:left;cursor:pointer}
 .character-card[aria-pressed=true]{border-color:var(--accent);background:#202b20}.character-avatar{display:grid;place-items:center;width:46px;height:46px;background:var(--character);color:#111817;border-radius:50%;font-size:24px;font-weight:900;margin-bottom:16px}
 .character-card strong,.character-card small{display:block}.character-card small{color:var(--muted);margin-top:8px}.character-card p{font-size:12px;color:#b5c1ba;min-height:75px}
 .solo-layout{display:grid;grid-template-columns:minmax(0,760px) minmax(230px,1fr);gap:18px;align-items:start}
+.rally-view .solo-layout{grid-template-columns:minmax(0,min(760px,max(360px,calc(84.44svh - 160px)))) minmax(230px,340px)}
 .solo-canvas{width:100%;height:auto;display:block;cursor:crosshair;touch-action:none;border-radius:14px;border:1px solid #445349;background:#0b1411}
 .solo-panel{display:grid;gap:12px}.solo-panel article{padding:20px;background:var(--panel);border:1px solid var(--line);border-radius:14px}.solo-panel h3{margin:0 0 10px}.solo-panel p{font-size:14px;color:var(--muted)}
 .solo-panel progress{width:100%;accent-color:var(--accent);height:20px}.solo-status{color:var(--accent)!important;min-height:65px}.solo-help{font-size:13px;color:var(--muted);margin:18px 0}.practice-actions{display:flex;gap:10px;flex-wrap:wrap}
 @media(max-width:1000px){.character-grid{grid-template-columns:repeat(3,1fr)}.solo-layout{grid-template-columns:1fr}.solo-panel{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.mode-grid,.character-grid,.solo-panel{grid-template-columns:1fr}.practice-heading{align-items:start;flex-direction:column}.character-card p{min-height:0}.character-avatar{float:left;margin-right:15px}}
+@media(min-width:731px){.rally-view .solo-panel{grid-template-columns:1fr}}
+@media(max-width:730px){.rally-view .solo-layout{grid-template-columns:1fr}}

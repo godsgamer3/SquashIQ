@@ -1,5 +1,7 @@
 # Squash IQ - Development Handoff
 
+> 2026-11-23: 2.0 Phase 0/1 현황과 실행·좌표·검증·한계는 [PHASE1_HANDOFF.md](PHASE1_HANDOFF.md)를 참조하세요. 신규 3D 튜토리얼은 왼쪽 포핸드이며 기존 2D 매핑은 유지됩니다. 아래는 기존 구현의 이력입니다.
+
 ## 1. Project Goal
 
 Squash IQ is an interactive browser experience for people who are new to squash.

@@ -1,0 +1,32 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>전신 스윙 동작 검토</title>
+<style>body{margin:0;background:#0b1415;color:#edf6ef;font:16px/1.6 Arial,sans-serif;padding:24px}h1{font-size:26px;margin:0}p{color:#a8beb6;margin:4px 0 20px}main{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}article{background:#142323;border:1px solid #304641;border-radius:12px;overflow:hidden}h2{padding:12px 16px;margin:0;font-size:18px;color:#bbf66a}canvas{display:block;width:100%;height:380px}article p{padding:10px 16px;min-height:52px;margin:0}</style>
+<h1>옆벽보다 뒷벽으로 빠지는 팔꿈치</h1><p>같은 백스윙을 후방과 다른 각도에서 비교 · 버튼으로 첫 화면의 연결 동작을 재생</p>
+<button id="replayToggle" style="font:inherit;color:#d6f68d;background:#1d3530;border:1px solid #557768;border-radius:8px;padding:8px 16px;margin-bottom:16px">0.25배속 재생</button>
+<main><article><h2 id="replayHeading">준비 자세 · 후방</h2><canvas id="load"></canvas><p>옆으로 벌리기보다 어깨 뒤 뒷벽 쪽으로 팔꿈치를 당깁니다.</p></article><article><h2>같은 준비 · 다른 각도</h2><canvas id="drop"></canvas><p>열린 오른쪽 어깨 뒤로 팔꿈치·손·라켓 준비</p></article><article><h2>임팩트 · 공 높이에서 타격</h2><canvas id="contact"></canvas><p id="height">라켓 스트링 중앙과 공의 접점 일치</p></article><article><h2>마무리 · 회전하며 통과</h2><canvas id="follow"></canvas><p>몸통과 함께 공을 지나 반대편으로 스윙</p></article></main>
+<script src="../practice-physics.js?v=profiles-2"></script><script src="../academy-balance.js"></script>
+<script src="../academy-animation.js?v=11"></script><script src="../academy-model.js?v=7"></script><script src="../academy-renderer.js?v=10"></script>
+<script>
+const A=SquashAcademy,M=SquashMotion,s=A.start();
+function advance(n){for(let i=0;i<Math.round(n/A.STEP);i++)A.update(s,A.STEP);}
+s.player={x:4.70,y:3.72};advance(1.64);A.begin(s);advance(.9);A.release(s);const load=structuredClone(s);
+const drop=structuredClone(load);
+advance(M.CONTACT_TIME);const contact=structuredClone(s);
+advance(M.FOLLOW_TIME-M.CONTACT_TIME);const follow=structuredClone(s);
+document.getElementById('height').textContent=`접점 높이 ${Math.round(contact.stroke.point.z*100)}cm · 스트링 중앙과 공 일치`;
+const renderers=['load','drop','contact','follow'].map((id,i)=>AcademyRenderer.create(document.getElementById(id),i===0?{eye:[1.6,2.3,3.4],target:[1.6,.9,-1.05]}:{eye:[3.2,2.3,-4.65],target:[1.6,.85,-1.05]}));
+let replay=structuredClone(load),last=0,accumulator=0,playing=false;
+document.getElementById('replayToggle').onclick=()=>{
+  playing=!playing;replay=structuredClone(load);last=0;accumulator=0;
+  document.getElementById('replayToggle').textContent=playing?'준비 자세에서 멈춤':'0.25배속 재생';
+  document.getElementById('replayHeading').textContent=playing?'후방 · 0.25배속':'준비 자세 · 후방';
+};
+function draw(now){
+  if(last&&playing)accumulator+=Math.min(.05,(now-last)/1000)*.25;last=now;
+  while(accumulator>=A.STEP){A.update(replay,A.STEP);accumulator-=A.STEP;}
+  if(replay.stroke.time>M.END_TIME+.20)replay=structuredClone(load);
+  [replay,drop,contact,follow].forEach((snapshot,i)=>renderers[i].render(snapshot,{time:0,moving:false}));
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+</script></html>
+

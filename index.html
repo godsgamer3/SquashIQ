@@ -14,7 +14,8 @@
 .aim-card{background:#111817;border:1px solid var(--line);border-radius:14px;padding:18px}.aim-head,.aim-status{display:flex;justify-content:space-between;align-items:center}.aim-head b{color:var(--accent);font-size:13px}.aim-status{margin:12px 0;color:#7f8c87;font-size:12px}.aim-status strong{color:white}.aim-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.aim-buttons button{background:#18211f;border:1px solid #2a3733;color:white;border-radius:10px;padding:10px 12px;cursor:pointer;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px}.aim-buttons button:hover{border-color:var(--accent)}.aim-buttons kbd{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 6px;background:#293531;border-radius:6px;color:var(--accent);font-weight:900}.aim-card p{margin:10px 0 0;color:#82908b;font-size:12px;line-height:1.55}
 
 </style>
-  <link rel="stylesheet" href="practice.css?v=solo-3" />
+  <link rel="stylesheet" href="practice.css?v=rally-1" />
+  <link rel="stylesheet" href="academy.css?v=4" />
 </head>
 <body>
   <header class="topbar">
@@ -30,6 +31,7 @@
       <button data-page="rules">규칙</button>
       <button data-page="techniques">기술</button>
       <button data-page="strategy">전술</button>
+      <button data-page="academy">3D 스쿼시 튜토리얼</button>
       <button class="nav-game" data-page="practice">스쿼시 체험하기</button>
     </nav>
   </header>
@@ -44,6 +46,7 @@
           <div class="hero-actions">
             <button class="primary" data-page="practice">스쿼시 체험하기</button>
             <button class="secondary" data-page="basics">스쿼시 5분 입문</button>
+            <button class="secondary" data-page="academy">3D 튜토리얼 시작</button>
           </div>
           <div class="hero-stats">
             <div><b>4</b><span>핵심 샷</span></div>
@@ -136,6 +139,40 @@
         <article><h2>좋은 Length</h2><p>상대를 뒤쪽 코너로 보내면 상대의 공격 옵션을 줄이고 내가 T 근처를 차지하기 쉬워집니다.</p></article>
         <article><h2>상대와 공을 같이 보기</h2><p>공만 보면 반응이 늦습니다. 상대의 타점과 몸 방향을 함께 읽으면 첫 발이 빨라집니다.</p></article>
         <article><h2>T는 고정 점이 아님</h2><p>항상 T 표시 위에 서는 것이 아니라 상대와 공 위치에 따라 약간씩 이동한 '회복 위치'를 잡는 개념입니다.</p></article>
+      </div>
+    </section>
+
+    <section class="page" id="page-academy" aria-labelledby="academyTitle">
+      <div class="shell academy-shell">
+        <header class="academy-head">
+          <div><span class="eyebrow">SQUASH IQ 2.0 · SQUASH ACADEMY</span><h1 id="academyTitle">3D 스쿼시 튜토리얼</h1><p id="academyLessonCopy">Stage 1 · 포핸드 스트레이트. 오른손잡이 기준 몸 오른쪽의 공을 같은 쪽 앞벽으로 보내 보세요.</p></div>
+          <button class="secondary" data-page="techniques">샷 설명 읽기</button>
+        </header>
+        <nav class="academy-stages" aria-label="레슨 선택"><button class="secondary" data-academy-stage="1" aria-pressed="true">1 · 포핸드 스트레이트</button><button class="secondary" data-academy-stage="2" aria-pressed="false">2 · 백핸드 스트레이트</button><button class="secondary" data-academy-stage="3">3 · 포핸드 발리</button><button class="secondary" data-academy-stage="4">4 · 백핸드 발리</button><button class="secondary" data-academy-stage="5">5 · 포핸드 크로스</button><button class="secondary" data-academy-stage="6">6 · 백핸드 크로스</button></nav><p class="academy-mobile">이 연습은 키보드와 마우스가 필요합니다. 데스크톱 브라우저에서 접속해 주세요. 모바일에서는 위의 ‘샷 설명 읽기’로 먼저 배울 수 있습니다.</p>
+        <div class="academy-layout">
+          <div>
+            <div class="academy-scene">
+              <div class="academy-scene-label"><b id="academyStrokeLabel">FOREHAND / STRAIGHT</b><span>민트색 앞벽 → 초록색 바닥 · 흰색 T는 코트 중심</span></div>
+              <canvas id="academyCanvas" width="900" height="675" tabindex="0" aria-label="3D 스쿼시 코트. WASD 이동, 앞벽을 마우스로 조준, 왼쪽 버튼 누름은 포핸드 충전, 놓으면 타격. R 새 공." aria-describedby="academyInput"></canvas>
+              <div id="academyGauge" class="academy-gauge" hidden><span id="academyPowerText">0%</span><div class="academy-track"><i></i></div></div>
+              <div id="academyComplete" class="academy-clear-overlay" role="dialog" aria-modal="true" aria-labelledby="academyCompleteTitle" aria-describedby="academyCompleteCopy" hidden>
+                <div class="academy-clear-card"><span class="academy-clear-mark" aria-hidden="true">✓</span><h2 id="academyCompleteTitle">Stage 1 완료</h2><p id="academyCompleteCopy"></p><button class="primary" id="academyNext">Stage 2 · 백핸드 시작하기</button></div>
+              </div>
+              <p id="academyUnavailable" class="academy-error" role="alert" hidden></p>
+            </div>
+            <div class="academy-controls"><button class="primary" id="academyFeed">새 공 준비 (R)</button><button class="secondary" id="academyPause">일시정지</button><button class="secondary" id="academyRestart">처음부터 연습</button></div>
+            <p class="academy-notes">밝은 공과 바닥 그림자로 높이를 읽으세요. 코치가 친 뒤 T에서 출발하세요. 앞벽·바닥 목표를 맞히고 흰색 T에 복귀하면 1회 성공입니다. 충분히 충전해 정확히 치면 공이 빠르고 깊게 뻗습니다. 옆벽은 안이 보이도록 낮춰 표시했습니다.</p>
+          </div>
+          <aside class="academy-panel" aria-label="레슨 안내">
+            <article><h2>레슨 목표</h2><p><strong id="academyProgress">0 / 10</strong> 성공 · <span id="academyPhase">공 준비</span></p><progress id="academyProgressBar" max="10" value="0" aria-label="Stage 1 성공 횟수"></progress><p>앞벽의 민트색 사각형을 노려요. 반사된 공이 초록색 목표 구역에 떨어지는지 관찰하세요.</p></article>
+            <article><h2 id="academyChargeTitle">포핸드 충전</h2><p id="academyChargeGuide"></p><p id="academyContact"></p></article>
+            <article class="academy-feedback-card"><h2>코치의 한마디</h2><p id="academyFeedback" class="academy-feedback" role="status" aria-live="polite"></p></article>
+            
+            <article id="academyInput"><h2>이 모드의 조작</h2><p id="academyControlsCopy">코트를 클릭한 뒤 WASD 이동<br>마우스 · 앞벽 십자선 조준<br><strong>왼쪽 누름/놓음 · 포핸드</strong><br>오른쪽 · 백핸드 (다음 레슨)</p><p id="academyPositionCopy">코치의 스트레이트가 앞벽에 맞고 돌아옵니다. 쇼트라인 앞으로 달려가 한 번 튄 공을 받아치세요. 공의 왼쪽에 서세요. 새 공은 T에서 시작하고, 처음부터 연습은 위치와 기록을 초기화합니다.</p></article>
+          </aside>
+        </div>
+        <p class="academy-notes">기존 2D Solo·CPU 랠리는 <b>왼쪽 백핸드 / 오른쪽 포핸드</b>입니다. 신규 3D는 <b>왼쪽 포핸드 / 오른쪽 백핸드</b>를 사용합니다. 실제 코트에서는 충분한 간격을 확보하고 코치의 지도를 받으세요. 이 체험은 실제 스윙 자세를 평가하지 않습니다.</p>
+        <section class="academy-roadmap" aria-label="다음 레슨"><h2>다음 레슨</h2><ol><li>7 · 미니 챌린지 · 잠금</li></ol></section>
       </div>
     </section>
 
@@ -1010,7 +1047,15 @@
 })();
 
 </script>
-<script src="practice-physics.js?v=solo-3"></script>
-<script src="practice.js?v=solo-3"></script>
+<script src="practice-physics.js?v=profiles-3"></script>
+<script src="practice-rally.js?v=rally-1"></script>
+<script src="practice-presentation.js?v=rally-1"></script>
+<script src="practice.js?v=rally-1"></script>
+<script src="academy-balance.js"></script>
+<script src="academy-animation.js?v=11"></script>
+<script src="academy-model.js?v=17"></script>
+<script src="academy-renderer.js?v=10"></script>
+<script src="academy-audio.js?v=6"></script>
+<script src="academy.js?v=16"></script>
 </body>
 </html>

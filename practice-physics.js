@@ -31,36 +31,49 @@
     ball.bounces = 0;
     return true;
   }
-  function stepBall(ball, dt) {
-    dt *= BALL_TIME_SCALE;
+  // Optional per-mode tuning; omitted values preserve legacy solo/CPU behaviour.
+  function stepBall(ball, dt, profile = {}) {
+    dt *= profile.timeScale ?? BALL_TIME_SCALE;
     const events = [];
-    const r = COURT.radius;
+    const r = profile.radius ?? COURT.radius;
+    const floorRestitution = profile.floorRestitution ?? FLOOR_RESTITUTION;
     const resting = ball.z <= r + 0.00001 && Math.abs(ball.vz) < 0.45;
     if (resting) { ball.z = r; ball.vz = 0; }
     else ball.vz -= 9.81 * dt;
     ball.x += ball.vx * dt; ball.y += ball.vy * dt; ball.z += ball.vz * dt;
     const reflect = (axis, velocity, low, high, loss, labels) => {
       if (ball[axis] < low) {
-        ball[axis] = low + (low - ball[axis]); ball[velocity] = Math.abs(ball[velocity]) * loss;
+        ball[axis] = low + (low - ball[axis]); ball[velocity] = Math.abs(ball[velocity]) * loss[0];
         events.push(labels[0]);
       } else if (ball[axis] > high) {
-        ball[axis] = high - (ball[axis] - high); ball[velocity] = -Math.abs(ball[velocity]) * loss;
+        ball[axis] = high - (ball[axis] - high); ball[velocity] = -Math.abs(ball[velocity]) * loss[1];
         events.push(labels[1]);
       }
     };
-    reflect('x', 'vx', r, COURT.width - r, 0.94, ['left', 'right']);
-    reflect('y', 'vy', r, COURT.length - r, 0.94, ['front', 'back']);
+    const side = profile.sideRestitution ?? .94;
+    reflect('x', 'vx', r, COURT.width - r, [side, side], ['left', 'right']);
+    reflect('y', 'vy', r, COURT.length - r,
+      [profile.frontRestitution ?? .94, profile.backRestitution ?? .94], ['front', 'back']);
+    if (events.includes('back')) {
+      const tangent = profile.backTangentialRetention ?? 1;
+      ball.vx *= tangent; ball.vz *= tangent;
+    }
     if (!resting && ball.z < r) {
       // Resolve at the floor rather than mirroring penetration upwards, which
       // adds visible height to shallow bounces.
       ball.z = r;
-      ball.vz = Math.abs(ball.vz) * FLOOR_RESTITUTION;
+      ball.vz = Math.abs(ball.vz) * floorRestitution;
       ball.vx *= 0.90; ball.vy *= 0.90;
       ball.bounces++;
       events.push('floor');
       if (ball.vz < 0.45) { ball.z = r; ball.vz = 0; }
     }
     if (ball.z > COURT.height) events.push('out');
+    // Only opted-in modes slow a settled ball; legacy trajectories stay unchanged.
+    if (ball.z === r && ball.vz === 0 && profile.rollingDrag) {
+      const drag = Math.exp(-profile.rollingDrag * dt);
+      ball.vx *= drag; ball.vy *= drag;
+    }
     return events;
   }
   function nextBounce(ball) {
